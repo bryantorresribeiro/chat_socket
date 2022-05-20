@@ -1,4 +1,9 @@
 const express  = require('express')
+const { config } = require('dotenv')
+const cors = require("cors")
+config()
+
+
 const path = require("path");
 
 
@@ -10,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'public'))
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
-
+app.use(cors())
 
 let messages = [];
 
@@ -27,4 +32,5 @@ io.on('connection', socket => {
     })
 })
 
-server.listen(3000)
+const PORT = process.env.PORT || 3000
+server.listen(PORT, () => console.log(`App is running on port ${PORT}`))
